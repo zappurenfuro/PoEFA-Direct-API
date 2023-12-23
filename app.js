@@ -4,6 +4,10 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const cors = require('cors');
+app.use(cors());
+
+
 // Helper functions
 function createPayload(status, have, want, minimum) {
     return {
@@ -69,7 +73,7 @@ app.get('/calculate-prices', async (req, res) => {
     const bulkPayloadIncandescent = createPayload("online", ["divine"], ["incandescent-invitation"], 10);
     const singlePayloadScreaming = createPayload("online", ["chaos"], ["screaming-invitation"], 1);
     const singlePayloadIncandescent = createPayload("online", ["chaos"], ["incandescent-invitation"], 1);
-    
+
     // Make requests with delays to prevent rate limiting
     const currencyResponseData = await makeRequest(url, headers, currencyPayload);
     await sleep(1000); // Wait for 1 second
@@ -99,13 +103,13 @@ app.get('/calculate-prices', async (req, res) => {
 
     // Compile the results
     const results = {
-        divine_price: divinePrice,
-        bulk_price_screaming: bulkPriceScreaming,
-        bulk_price_incandescent: bulkPriceIncandescent,
-        single_price_screaming: singlePriceScreaming,
-        single_price_incandescent: singlePriceIncandescent,
-        profit_screaming: profitScreaming,
-        profit_incandescent: profitIncandescent
+        "divine_price": divinePrice,
+        "bulk_price_screaming": bulkPriceScreaming,
+        "bulk_price_incandescent": bulkPriceIncandescent,
+        "single_price_screaming": singlePriceScreaming,
+        "single_price_incandescent": singlePriceIncandescent,
+        "profit_screaming": profitScreaming,
+        "profit_incandescent": profitIncandescent
     };
 
     res.json(results);
