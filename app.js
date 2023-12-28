@@ -1,10 +1,10 @@
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const cors = require('cors');
 app.use(cors());
 
 
@@ -72,7 +72,7 @@ app.get('/calculate-prices', async (req, res) => {
     const bulkPayloadScreaming = createPayload("online", ["divine"], ["screaming-invitation"], 10);
     const bulkPayloadIncandescent = createPayload("online", ["divine"], ["incandescent-invitation"], 10);
     const singlePayloadScreaming = createPayload("online", ["chaos"], ["screaming-invitation"], 1);
-    const singlePayloadIncandescent = createPayload("online", ["chaos"], ["incandescent-invitation"], 1);
+    const singlePayloadIncandescent = createPayload("online", ["divine"], ["incandescent-invitation"], 1);
 
     // Make requests with delays to prevent rate limiting
     const currencyResponseData = await makeRequest(url, headers, currencyPayload);
@@ -99,7 +99,7 @@ app.get('/calculate-prices', async (req, res) => {
 
     // Profit calculations
     const profitScreaming = (divinePrice * bulkPriceScreaming) - singlePriceScreaming;
-    const profitIncandescent = (divinePrice * bulkPriceIncandescent) - singlePriceIncandescent;
+    const profitIncandescent = divinePrice * (bulkPriceIncandescent - singlePriceIncandescent);
 
     // Compile the results
     const results = {
